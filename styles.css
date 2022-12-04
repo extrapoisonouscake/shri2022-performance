@@ -1,4 +1,4 @@
-@import url("vendors/bootstrap.css");
+
 
 html {
     font-size: 100%;
@@ -273,6 +273,9 @@ html, body {
     gap: 0.9375rem;
     height: 20.6875rem;
     background: no-repeat 50% 50% url(assets/bg@2x.png);
+    background-image: image-set(
+    url("assets/bg_2x.webp") type("image/webp"),
+    url("assets/bg@2x.png") type("image/jpeg"));
     /*background-size: cover;*/
     background-size: 1260px;
     border-radius: 1.25rem;
