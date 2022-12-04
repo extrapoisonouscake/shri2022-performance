@@ -1,40 +1,37 @@
 (() => {
     function bind(nodes, event, handler) {
-        Array.from(nodes).forEach(node => {
+        nodes.forEach(node => {
             node.addEventListener(event, handler);
         });
     }
 
-    function makeTabs(node) {
-        let selected = node.querySelector('.section__tab_active').dataset.id;
+    function makeTabs() {
+        const node = document.querySelector('.main__devices')
+        let selected = node.querySelector('[aria-hidden="true"]').dataset.id;
         const tabs = node.querySelectorAll('.section__tab');
         const list = Array.from(tabs).map(node => node.dataset.id);
         const select = node.querySelector('.section__select');
 
         function selectTab(newId) {
+            console.log(newId)
             const newTab = node.querySelector(`.section__tab[data-id=${newId}]`);
             const newPanel = node.querySelector(`.section__panel[data-id=${newId}]`);
-            const oldTab = node.querySelector('.section__tab_active');
-            const oldPanel = node.querySelector('.section__panel:not(.section__panel_hidden)');
+            const oldTab = node.querySelector('[aria-selected="true"]');
+            const oldPanel = node.querySelector('[aria-hidden="false"]');
 
             selected = newId;
 
-            oldTab.classList.remove('section__tab_active');
             oldTab.setAttribute('aria-selected', 'false');
             oldTab.removeAttribute('tabindex');
-            newTab.classList.add('section__tab_active');
             newTab.setAttribute('aria-selected', 'true');
             newTab.setAttribute('tabindex', '0');
             newTab.focus({
                 preventScroll: true
             });
 
-            oldPanel.classList.add('section__panel_hidden');
             oldPanel.setAttribute('aria-hidden', 'true');
-            newPanel.classList.remove('section__panel_hidden');
             newPanel.setAttribute('aria-hidden', 'false');
 
-            select.value = newId;
         }
 
         select.addEventListener('input', () => {
@@ -52,21 +49,23 @@
             }
 
             let index = list.indexOf(selected);
-            if (event.which === 37) {
-                // left
-                --index;
-            } else if (event.which === 39) {
-                // right
-                ++index;
-            } else if (event.which === 36) {
-                // home
-                index = 0;
-            } else if (event.which === 35) {
-                // end
-                index = list.length - 1;
-            } else {
-                return;
+            switch(event.which){
+                case 37:
+                    --index;
+                    break;
+                case 39:
+                    ++index;
+                    break;
+                case 36:
+                    index = 0;
+                    break;
+                case 35:
+                    index = list.length - 1;
+                    break;
+                default:
+                    return;
             }
+            
 
             if (index >= list.length) {
                 index = 0;
@@ -79,21 +78,17 @@
         });
     }
 
-    function makeMenu(node) {
-        let expanded = false;
-        const links = document.querySelector('.header__links');
-
+    function makeMenu() {
+        const node = document.querySelector('.header__menu')
         node.addEventListener('click', () => {
-            expanded = !expanded;
-            node.setAttribute('aria-expanded', expanded ? 'true' : 'false');
-            node.querySelector('.header__menu-text').textContent = expanded ? 'Закрыть меню' : 'Открыть меню';
-            links.classList.toggle('header__links_opened', expanded);
-            links.classList.add('header__links-toggled');
+            const expanded = !(node.getAttribute('aria-expanded') === 'true')
+            node.setAttribute('aria-expanded',String(expanded));
+            
         });
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-        Array.from(document.querySelectorAll('.main__devices')).forEach(makeTabs);
-        Array.from(document.querySelectorAll('.header__menu')).forEach(makeMenu);
+        makeTabs();
+        makeMenu()
     });
 })();
