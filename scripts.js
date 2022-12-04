@@ -13,7 +13,6 @@
         const select = node.querySelector('.section__select');
 
         function selectTab(newId) {
-            console.log(newId)
             const newTab = node.querySelector(`.section__tab[data-id=${newId}]`);
             const newPanel = node.querySelector(`.section__panel[data-id=${newId}]`);
             const oldTab = node.querySelector('[aria-selected="true"]');
