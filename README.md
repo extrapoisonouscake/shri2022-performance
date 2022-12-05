@@ -1,4 +1,4 @@
-# ![скрин](https://github.com/extrapoisonouscake/shri2022-performance/blob/main/image.jpg?raw=true)
+# ![скрин](https://github.com/extrapoisonouscake/shri2022-performance/blob/main/62EDC5ED-7140-4EF7-A89F-023F226042E1.png?raw=true)
 
 
 # ШРИ 2022: Performance
